@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clickable Data Table from CSV</title>
+  <title>Clickable Data Table from Logs</title>
   <style>
     table {
       border-collapse: collapse;
@@ -24,10 +24,9 @@
   </style>
 </head>
 <body>
-  <h1>Clickable Data Table from CSV</h1>
   <p>
-    <label for="csvFile">CSV File:</label>
-    <input type="file" id="csvFile" accept=".csv" />
+    <label for="logFile">Log File:</label>
+    <input type="file" id="logFile" />
   </p>
   <table id="dataTable">
     <thead>
@@ -37,7 +36,8 @@
   </table>
 
   <script>
-    function parseCSV(text) {
+    function parseLogs(text) {
+      // Modify this function to parse your specific log format
       return text.trim().split('\n').map(row => row.split(','));
     }
 
@@ -77,13 +77,13 @@
       }
     }
 
-    document.getElementById('csvFile').addEventListener('change', (e) => {
+    document.getElementById('logFile').addEventListener('change', (e) => {
       const file = e.target.files[0];
       const reader = new FileReader();
 
       reader.onload = (event) => {
         const fileContent = event.target.result;
-        const parsedData = parseCSV(fileContent);
+        const parsedData = parseLogs(fileContent);
         createTable(parsedData);
       };
 
