@@ -13,6 +13,9 @@
       border: 1px solid black;
       padding: 8px;
       text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     th {
       background-color: #f2f2f2;
@@ -21,19 +24,26 @@
       background-color: #f2f2f2;
       cursor: pointer;
     }
+    .table-container {
+      height: 400px;
+      overflow: auto;
+    }
   </style>
 </head>
 <body>
+  <h1>Data Table from Logs</h1>
   <p>
     <label for="logFile">Log File:</label>
     <input type="file" id="logFile" />
   </p>
-  <table id="dataTable">
-    <thead>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table id="dataTable">
+      <thead>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
 
   <script>
     function parseLogs(text) {
