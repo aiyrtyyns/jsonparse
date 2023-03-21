@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clickable Data Table from CSV</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr[data-row]:hover {
+      background-color: #f2f2f2;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clickable Data Table from CSV</h1>
+  <p>
+    <label for="csvFile">CSV File:</label>
+    <input type="file" id="csvFile" accept=".csv" />
+  </p>
+  <table id="dataTable">
+    <thead>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <script>
+    function parseCSV(text) {
+      return text.trim().split('\n').map(row => row.split(','));
+    }
+
+    function createTable(data) {
+      const table = document.getElementById('dataTable');
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+
+      if (data.length === 0) return;
+
+      const headerRow = document.createElement('tr');
+      data[0].forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      for (let i = 1; i < data.length; i++) {
+        const dataRow = document.createElement('tr');
+        dataRow.setAttribute('data-row', i);
+
+        dataRow.addEventListener('click', () => {
+          alert(`Row clicked: ${i}`);
+          // Add your custom action here
+        });
+
+        data[i].forEach(cellData => {
+          const td = document.createElement('td');
+          td.textContent = cellData;
+          dataRow.appendChild(td);
+        });
+        tbody.appendChild(dataRow);
+      }
+    }
+
+    document.getElementById('csvFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const fileContent = event.target.result;
+        const parsedData = parseCSV(fileContent);
+        createTable(parsedData);
+      };
+
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
