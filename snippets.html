@@ -1,0 +1,11 @@
+function parseLogs(text) {
+  const logLines = text.trim().split('\n');
+  const parsedData = logLines.map(line => {
+    const preRECV = line.split('RECV')[0];
+    const type = preRECV.slice(preRECV.lastIndexOf('/') + 1).trim();
+    const logData = line.split('RECV')[1]?.trim() || '';
+    return [type, logData];
+  });
+
+  return parsedData;
+}
