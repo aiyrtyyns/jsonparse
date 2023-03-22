@@ -6,18 +6,15 @@ function parseLogs(text) {
   });
 }
 
-function convertTimestamp(timestamp) {
-  const date = new Date(timestamp);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
+function convertTimestamp(input) {
+  const regex = /(\d{4}-\d{2}-\d{2})\/(\d{2}:\d{2}:\d{2}\.\d{3})/;
+  const matches = input.match(regex);
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  if (matches) {
+    const date = matches[1];
+    const time = matches[2].substring(0, 8);
+    return `${date} ${time}`;
+  }
+
+  return "Invalid input format";
 }
-
-const pdtTimestamp = "2023-03-20T10:06:00.315-07:00"; // PDT timezone offset is -07:00
-const formattedDate = convertTimestamp(pdtTimestamp);
-console.log(formattedDate);
