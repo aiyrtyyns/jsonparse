@@ -18,3 +18,11 @@ function convertTimestamp(input) {
 
   return "Invalid input format";
 }
+
+
+function getCellData(rowIndex, colIndex) {
+  const row = document.querySelector(`table tbody tr:nth-child(${rowIndex + 1})`);
+  if (!row) return null;
+  const cell = row.querySelector(`td:nth-child(${colIndex + 1})`);
+  return cell ? cell.textContent : null;
+}
